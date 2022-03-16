@@ -1,0 +1,14 @@
+await fetch("workout/", {
+  method: "POST",
+  headers: {
+    'Content-Type': 'application/json'
+  },
+  body: JSON.stringify({
+    type: "A",
+    squat: { sets: 3, reps: 15, weight: 20 },
+    press: { sets: 3, reps: 15, weight: 20 },
+    deadlift: { sets: 1, reps: 5, weight: 40 },
+  })
+}).then((res) => window.location.href = '/display').catch(function (err) {
+  console.info(err);
+});

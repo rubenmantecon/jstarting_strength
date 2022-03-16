@@ -2,6 +2,7 @@ const express = require('express');
 const app = express();
 const port = 3000;
 
+app.use(express.json()) 
 
 let workoutA = {
   type: "A",
@@ -19,19 +20,31 @@ let workoutB = {
 
 };
 
+app.get('/', (req, res) => {
+  res.send('<h2>Hello there</h2>')
+})
+
+app.get('/display', (req, res) => { 
+  res.send('Here we will print the POSTed data in the future');
+})
+
+
 app.get('/workout/:type', (req, res) => {
   if (req.params.type === "A") {
     res.send(workoutA);
   }
   else if (req.params.type === "B") {
-    res.send(workoutB)
+    res.send(workoutB);
   }
 });
 
-app.post('/workout/:type', (req, res) => {
-  //
+
+app.post('/workout/', (req, res) => {
+  console.log('You POSTed');
+  console.log(`The request's body: ${JSON.stringify(req.body)}`);
 });
 
 app.listen(port, () => {
-  console.log(`Example app listening http://localhost:${port}/workout/`)
-})
+  console.log(`JStarting Strength listening http://localhost:${port}/workout/`);
+});
+
