@@ -12,3 +12,8 @@ await fetch("workout/", {
 }).then((res) => window.location.href = '/display').catch(function (err) {
   console.info(err);
 });
+
+https://stackoverflow.com/questions/31634646/express-js-how-to-modify-app-locals-variables-in-routes#33655662
+https://stackoverflow.com/questions/18758158/node-js-is-app-locals-a-global-obj
+https://stackoverflow.com/questions/49290205/storing-state-in-a-node-express-application
+https://stackoverflow.com/questions/7042340/error-cant-set-headers-after-they-are-sent-to-the-client

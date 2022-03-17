@@ -24,8 +24,10 @@ app.get('/', (req, res) => {
   res.send('<h2>Hello there</h2>')
 })
 
-app.get('/display', (req, res) => { 
-  res.send('Here we will print the POSTed data in the future');
+app.get('/display', (req, res) => {
+  console.log(`You (probably) got redirected. Using req.app.locals.workout, we stored the POSTed JSON in
+  /workout: ${JSON.stringify(res.app.locals.workout)}`);
+  res.json(res.app.locals.workout);
 })
 
 
@@ -42,6 +44,8 @@ app.get('/workout/:type', (req, res) => {
 app.post('/workout/', (req, res) => {
   console.log('You POSTed');
   console.log(`The request's body: ${JSON.stringify(req.body)}`);
+  req.app.locals.workout = req.body;
+  console.log(`req.app.locals.workout: ${JSON.stringify(req.app.locals.workout)}`);
 });
 
 app.listen(port, () => {
