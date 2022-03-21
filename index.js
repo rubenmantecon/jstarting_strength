@@ -1,8 +1,13 @@
+//Imports and dependencies
 const express = require('express');
 const app = express();
 const port = 3000;
 
-app.use(express.json()) 
+//Middlewares
+//For parsing JSON
+app.use(express.json());
+//For parsing URL-encoded request bodies like in HTML forms
+app.use(require('body-parser').urlencoded({ extended: true }));
 
 let workoutA = {
   type: "A",
@@ -21,7 +26,17 @@ let workoutB = {
 };
 
 app.get('/', (req, res) => {
-  res.send('<h2>Hello there</h2>')
+  res.sendFile(`${__dirname}/views/index.html`);
+})
+
+app.post('/', (req, res) => {
+  const type = req.body.type;
+  const squat = req.body.squat;
+  const press = req.body.press;
+  const deadlift = req.body.deadlift;
+  console.log(JSON.stringify(req.body))
+  res.redirect('/');
+  res.end();
 })
 
 app.get('/display', (req, res) => {
@@ -49,6 +64,6 @@ app.post('/workout/', (req, res) => {
 });
 
 app.listen(port, () => {
-  console.log(`JStarting Strength listening http://localhost:${port}/workout/`);
+  console.log(`JStarting Strength listening http://localhost:${port}`);
 });
 
