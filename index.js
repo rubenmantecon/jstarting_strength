@@ -25,23 +25,26 @@ let workout = {
 
 let workoutA = {
   type: "A",
-  squat: { sets: 3, reps: 15, weight: 20 },
-  press: { sets: 3, reps: 15, weight: 20 },
-  deadlift: { sets: 1, reps: 5, weight: 40 },
-
+  exercises: [
+    {name: "squat", sets: 3, reps: 5, weight: 20},
+    {name: "press", sets: 3, reps: 5, weight: 20},
+    {name: "deadlift", sets: 3, reps: 5, weight: 40},
+  ],
+  date: null,
 };
 
 let workoutB = {
   type: "B",
-  squat: { sets: 3, reps: 15, weight: 20 },
-  bench: { sets: 3, reps: 15, weight: 20 },
-  deadlift: { sets: 1, reps: 5, weight: 40 },
-
+  exercises: [
+    {name: "squat", sets: 3, reps: 5, weight: 20},
+    {name: "benchPress", sets: 3, reps: 5, weight: 20},
+    {name: "deadlift", sets: 3, reps: 5, weight: 40},
+  ],
+  date: null,
 };
 
 app.get('/', (req, res) => {
   const workout = app.locals.workout;
-  console.log(typeof(workout))
   //render function takes a JS object, and locals.workout is not one. So does the EJS template
   res.render('index', { workout });
 });
