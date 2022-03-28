@@ -45,8 +45,10 @@ let workoutB = {
 
 app.get('/', (req, res) => {
   const workout = app.locals.workout;
+  console.log(typeof(workout))
+  console.dir(workout)
   //render function takes a JS object, and locals.workout is not one. So does the EJS template
-  res.render('index', { workout });
+  res.render('index', workout );
 });
 
 app.post('/', (req, res) => {
