@@ -1,13 +1,27 @@
 //Imports and dependencies
+const path = require('path');
 const express = require('express');
 const app = express();
 const port = 3000;
+const ejs = require('ejs');
 
 //Middlewares
-//For parsing JSON
+//For parsing and straight up rendering JSON
 app.use(express.json());
 //For parsing URL-encoded request bodies like in HTML forms
 app.use(require('body-parser').urlencoded({ extended: true }));
+//Template engine for dynamically rendering HTML
+app.set("view engine", "ejs");
+app.set("views", path.join(__dirname, "views"));
+
+let workout = {
+  type: null,
+  exercises: [{
+    name: null, sets: null, reps: null, weight: null
+  }],
+  date: null,
+};
+
 
 let workoutA = {
   type: "A",
@@ -26,24 +40,23 @@ let workoutB = {
 };
 
 app.get('/', (req, res) => {
-  res.sendFile(`${__dirname}/views/index.html`);
-})
+  const workout = app.locals.workout;
+  console.log(typeof(workout))
+  //render function takes a JS object, and locals.workout is not one. So does the EJS template
+  res.render('index', { workout });
+});
 
 app.post('/', (req, res) => {
-  const type = req.body.type;
-  const squat = req.body.squat;
-  const press = req.body.press;
-  const deadlift = req.body.deadlift;
-  console.log(JSON.stringify(req.body))
-  res.redirect('/');
+  app.locals.workout = req.body;
   res.end();
-})
+});
 
 app.get('/display', (req, res) => {
-  console.log(`You (probably) got redirected. Using req.app.locals.workout, we stored the POSTed JSON in
-  /workout: ${JSON.stringify(res.app.locals.workout)}`);
-  res.json(res.app.locals.workout);
-})
+  const workout = app.locals.workout;
+  console.log(`You (probably) got redirected to /display. Using app.locals.workout, we stored the POSTed JSON:`);
+  console.dir(workout);
+  res.render('index', { workout });
+});
 
 
 app.get('/workout/:type', (req, res) => {
@@ -57,10 +70,10 @@ app.get('/workout/:type', (req, res) => {
 
 
 app.post('/workout/', (req, res) => {
-  console.log('You POSTed');
-  console.log(`The request's body: ${JSON.stringify(req.body)}`);
-  req.app.locals.workout = req.body;
-  console.log(`req.app.locals.workout: ${JSON.stringify(req.app.locals.workout)}`);
+  console.log('You POSTed to /workout');
+  console.log(`The request's body: `);
+  console.dir(req.body);
+  app.locals.workout = req.body;
 });
 
 app.listen(port, () => {
